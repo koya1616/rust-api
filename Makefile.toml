@@ -1,11 +1,15 @@
 [tasks.watch]
 run_task = [
-  { name = ["clippy", "test", "run"] }
+  { name = ["fmt", "clippy", "test", "run"] }
 ]
 watch = true
 
 [tasks.watch.paths]
 paths = ["src/**/*"]
+
+[tasks.fmt]
+command = "cargo"
+args = ["fmt"]
 
 [tasks.clippy]
 command = "cargo"

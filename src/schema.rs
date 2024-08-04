@@ -12,6 +12,4 @@ diesel::table! {
     }
 }
 
-diesel::allow_tables_to_appear_in_same_query!(
-    admin_users,
-);
+diesel::allow_tables_to_appear_in_same_query!(admin_users,);

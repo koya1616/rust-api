@@ -1,9 +1,9 @@
-use rocket::get;
-use rocket::serde::json::Json;
-use diesel::prelude::*;
 use crate::db::establish_connection;
 use crate::models::AdminUser;
 use crate::schema::admin_users::dsl::*;
+use diesel::prelude::*;
+use rocket::get;
+use rocket::serde::json::Json;
 
 #[get("/")]
 pub fn index() -> Json<Vec<AdminUser>> {

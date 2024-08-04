@@ -1,8 +1,8 @@
-use diesel::prelude::*;
-use serde::{Serialize, Deserialize};
-use chrono::NaiveDateTime;
 use crate::schema::*;
 use bcrypt::verify;
+use chrono::NaiveDateTime;
+use diesel::prelude::*;
+use serde::{Deserialize, Serialize};
 
 // Queryable
 // 目的: データベースのクエリ結果を Rust の構造体にマッピングします。

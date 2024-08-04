@@ -9,3 +9,11 @@ pub fn establish_connection() -> MysqlConnection {
     MysqlConnection::establish(&database_url)
         .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
 }
+
+pub fn test_establish_connection() -> MysqlConnection {
+    dotenv().ok();
+
+    let database_url = env::var("TEST_DATABASE_URL").expect("TEST_DATABASE_URL must be set");
+    MysqlConnection::establish(&database_url)
+        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
+}

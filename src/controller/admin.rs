@@ -11,12 +11,14 @@ pub fn index() -> Json<Vec<AdminUser>> {
         .load::<AdminUser>(&mut establish_connection())
         .expect("Error loading admin users");
 
-    const PASSWORD: &str = "";
+    Json(results)
+}
 
-    let matching_users: Vec<AdminUser> = results
-        .into_iter()
-        .filter(|admin_user| admin_user.verify_password(PASSWORD))
-        .collect();
-
-    Json(matching_users)
+#[get("/<admin_id>")]
+pub fn get_admin_user(admin_id: i64) -> Option<Json<AdminUser>> {
+    admin_users
+        .find(admin_id)
+        .first::<AdminUser>(&mut establish_connection())
+        .map(Json)
+        .ok()
 }

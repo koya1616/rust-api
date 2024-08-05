@@ -1,5 +1,5 @@
 use crate::db::establish_connection;
-use crate::models::AdminUser;
+use crate::model::admin::AdminUser;
 use crate::schema::admin_users::dsl::*;
 use diesel::prelude::*;
 use rocket::get;

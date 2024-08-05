@@ -1,5 +1,5 @@
 pub mod controller;
 pub mod db;
-pub mod models;
+pub mod model;
 pub mod schema;
 pub mod test;

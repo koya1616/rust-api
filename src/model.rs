@@ -1,8 +1,4 @@
-use crate::schema::*;
-use bcrypt::verify;
-use chrono::NaiveDateTime;
-use diesel::prelude::*;
-use serde::{Deserialize, Serialize};
+pub mod admin;
 
 // Queryable
 // 目的: データベースのクエリ結果を Rust の構造体にマッピングします。
@@ -23,22 +19,3 @@ use serde::{Deserialize, Serialize};
 // 目的: 構造体のデバッグ表示を自動的に実装します。
 // 機能: println!("{:?}", admin_user) のような形式でオブジェクトを出力できるようにします。
 // 重要性: デバッグやログ出力を容易にし、開発プロセスを支援します。
-
-#[derive(Queryable, Selectable, Identifiable, Debug, Serialize, Deserialize)]
-#[diesel(table_name = admin_users)]
-pub struct AdminUser {
-    pub id: i64,
-    pub email: Option<String>,
-    pub password_digest: Option<String>,
-    pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
-}
-
-impl AdminUser {
-    pub fn verify_password(&self, password: &str) -> bool {
-        match &self.password_digest {
-            Some(digest) => verify(password, digest).unwrap_or(false),
-            None => false,
-        }
-    }
-}

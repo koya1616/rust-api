@@ -6,6 +6,7 @@ mod tests {
     use diesel::insert_into;
     use diesel::prelude::*;
     use diesel::sql_query;
+    use rocket::http::ContentType;
     use rocket::http::Status;
     use rocket::local::blocking::Client;
     use rocket::routes;
@@ -90,6 +91,34 @@ mod tests {
         assert_eq!(parsed_response.verify_password("test1234"), true);
 
         let response = client.get("/99").dispatch();
+        assert_eq!(response.status(), Status::NotFound);
+
+        let _cleanup = Cleanup;
+    }
+
+    #[test]
+    fn login_test() {
+        let client = Client::tracked(rocket::build().mount("/", routes![admin::login])).unwrap();
+
+        let response = client
+            .post("/admin/login")
+            .header(ContentType::Form)
+            .body("email=test1@test.com&password=test1234")
+            .dispatch();
+        assert_eq!(response.status(), Status::Ok);
+
+        let response = client
+            .post("/admin/login")
+            .header(ContentType::Form)
+            .body("email=test1@test.com&password=wrongpassword")
+            .dispatch();
+        assert_eq!(response.status(), Status::Unauthorized);
+
+        let response = client
+            .post("/admin/login")
+            .header(ContentType::Form)
+            .body("email=unexies@test.com&password=test1234")
+            .dispatch();
         assert_eq!(response.status(), Status::NotFound);
 
         let _cleanup = Cleanup;

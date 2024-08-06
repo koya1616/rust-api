@@ -2,6 +2,10 @@
 extern crate rocket;
 
 use crate::controller::admin;
+use rocket::http::Status;
+use rocket::response::status::Custom;
+use rocket::serde::json::Json;
+use serde::Serialize;
 
 pub mod controller;
 pub mod db;
@@ -16,4 +20,21 @@ fn rocket() -> _ {
         "/",
         routes![admin::index, admin::get_admin_user, admin::login],
     )
+}
+
+#[derive(Serialize)]
+pub struct ErrorResponse {
+    message: String,
+}
+
+impl ErrorResponse {
+    fn new(message: &str) -> Json<Self> {
+        Json(Self {
+            message: message.to_string(),
+        })
+    }
+}
+
+pub fn create_error(status: Status, message: &str) -> Custom<Json<ErrorResponse>> {
+    Custom(status, ErrorResponse::new(message))
 }

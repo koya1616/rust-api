@@ -1,9 +1,3 @@
-use crate::create_error;
-use crate::db::establish_connection;
-use crate::model::admin::AdminUser;
-use crate::schema::admin_users::dsl::*;
-use crate::types::admin::AdminLogin;
-use crate::ErrorResponse;
 use diesel::prelude::*;
 use rocket::form::Form;
 use rocket::get;
@@ -11,6 +5,13 @@ use rocket::http::Status;
 use rocket::post;
 use rocket::response::status::Custom;
 use rocket::serde::json::Json;
+
+use crate::create_error;
+use crate::db::establish_connection;
+use crate::model::admin::AdminUser;
+use crate::schema::admin_users::dsl::*;
+use crate::types::admin::AdminLogin;
+use crate::ErrorResponse;
 
 #[get("/")]
 pub fn index() -> Json<Vec<AdminUser>> {

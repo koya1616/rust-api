@@ -1,18 +1,19 @@
 #[macro_use]
 extern crate rocket;
 
-use crate::controller::admin;
-use rocket::http::Status;
-use rocket::response::status::Custom;
-use rocket::serde::json::Json;
-use serde::Serialize;
-
 pub mod controller;
 pub mod db;
 pub mod model;
 pub mod schema;
 pub mod test;
 pub mod types;
+
+use rocket::http::Status;
+use rocket::response::status::Custom;
+use rocket::serde::json::Json;
+use serde::Serialize;
+
+use crate::controller::admin;
 
 #[launch]
 fn rocket() -> _ {

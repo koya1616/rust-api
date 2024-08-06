@@ -1,8 +1,9 @@
-use crate::schema::*;
 use bcrypt::verify;
 use chrono::NaiveDateTime;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
+
+use crate::schema::*;
 
 #[derive(Queryable, Selectable, Identifiable, Debug, Serialize, Deserialize)]
 #[diesel(table_name = admin_users)]

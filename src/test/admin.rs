@@ -1,9 +1,5 @@
 #[cfg(test)]
 mod tests {
-    use crate::controller::admin;
-    use crate::db::test_establish_connection;
-    use crate::model::admin::AdminUser;
-    use crate::schema::admin_users::dsl::*;
     use bcrypt::{hash, DEFAULT_COST};
     use chrono::{FixedOffset, Utc};
     use ctor::*;
@@ -14,6 +10,11 @@ mod tests {
     use rocket::local::blocking::Client;
     use rocket::routes;
     use std::env;
+
+    use crate::controller::admin;
+    use crate::db::test_establish_connection;
+    use crate::model::admin::AdminUser;
+    use crate::schema::admin_users::dsl::*;
 
     #[ctor]
     fn setup() {

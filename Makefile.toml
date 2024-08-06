@@ -1,5 +1,11 @@
 [tasks.watch]
 run_task = [
+  { name = ["fmt", "clippy", "run"] }
+]
+watch = true
+
+[tasks.watch-test]
+run_task = [
   { name = ["fmt", "clippy", "test", "run"] }
 ]
 watch = true

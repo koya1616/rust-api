@@ -16,6 +16,7 @@ mod tests {
     use crate::db::test_establish_connection;
     use crate::model::admin::AdminUser;
     use crate::schema::admin_users::dsl::*;
+    use crate::types::admin::AdminLoginResponseBody;
 
     #[ctor]
     fn setup() {
@@ -106,6 +107,9 @@ mod tests {
             .body("email=test1@test.com&password=test1234")
             .dispatch();
         assert_eq!(response.status(), Status::Ok);
+        let response_body = response.into_string().unwrap();
+        let parsed_response: AdminLoginResponseBody = serde_json::from_str(&response_body).unwrap();
+        assert_eq!(parsed_response.id, 1);
 
         let response = client
             .post("/admin/login")

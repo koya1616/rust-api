@@ -1,4 +1,4 @@
-use rocket::serde::Serialize;
+use rocket::serde::{Deserialize, Serialize};
 use rocket::FromForm;
 
 #[derive(FromForm, Serialize)]
@@ -7,7 +7,7 @@ pub struct AdminLoginRequestBody {
     pub password: String,
 }
 
-#[derive(Serialize)]
+#[derive(Deserialize, Serialize)]
 pub struct AdminLoginResponseBody {
     pub id: i64,
     pub token: String,

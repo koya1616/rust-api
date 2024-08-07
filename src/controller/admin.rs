@@ -10,7 +10,7 @@ use crate::create_error;
 use crate::db::establish_connection;
 use crate::model::admin::AdminUser;
 use crate::schema::admin_users::dsl::*;
-use crate::types::admin::AdminLoginRequestBody;
+use crate::types::admin::{AdminLoginRequestBody, AdminLoginResponseBody};
 use crate::ErrorResponse;
 
 #[get("/")]
@@ -34,7 +34,7 @@ pub fn get_admin_user(admin_id: i64) -> Option<Json<AdminUser>> {
 #[post("/admin/login", data = "<login>")]
 pub fn login(
     login: Form<AdminLoginRequestBody>,
-) -> Result<Json<AdminUser>, Custom<Json<ErrorResponse>>> {
+) -> Result<Json<AdminLoginResponseBody>, Custom<Json<ErrorResponse>>> {
     admin_users
         .filter(email.eq(&login.email))
         .first::<AdminUser>(&mut establish_connection())
@@ -46,7 +46,10 @@ pub fn login(
         })
         .and_then(|user| {
             if user.verify_password(&login.password) {
-                Ok(Json(user))
+                Ok(Json(AdminLoginResponseBody {
+                    id: user.id,
+                    token: user.create_token(),
+                }))
             } else {
                 Err(create_error(Status::Unauthorized, "ログインに失敗しました"))
             }

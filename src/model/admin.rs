@@ -4,6 +4,7 @@ use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
 use crate::schema::*;
+use crate::types::jwt::create_claims;
 
 #[derive(Queryable, Selectable, Identifiable, Debug, Serialize, Deserialize)]
 #[diesel(table_name = admin_users)]
@@ -21,5 +22,9 @@ impl AdminUser {
             Some(digest) => verify(password, digest).unwrap_or(false),
             None => false,
         }
+    }
+
+    pub fn create_token(&self) -> String {
+        create_claims(self.id, "admin").encode()
     }
 }

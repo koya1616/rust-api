@@ -17,25 +17,22 @@ use crate::controller::admin;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount(
-        "/",
-        routes![admin::index, admin::get_admin_user, admin::login],
-    )
+  rocket::build().mount("/", routes![admin::index, admin::get_admin_user, admin::login])
 }
 
 #[derive(Serialize)]
 pub struct ErrorResponse {
-    message: String,
+  message: String,
 }
 
 impl ErrorResponse {
-    fn new(message: &str) -> Json<Self> {
-        Json(Self {
-            message: message.to_string(),
-        })
-    }
+  fn new(message: &str) -> Json<Self> {
+    Json(Self {
+      message: message.to_string(),
+    })
+  }
 }
 
 pub fn create_error(status: Status, message: &str) -> Custom<Json<ErrorResponse>> {
-    Custom(status, ErrorResponse::new(message))
+  Custom(status, ErrorResponse::new(message))
 }

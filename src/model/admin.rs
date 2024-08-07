@@ -9,22 +9,22 @@ use crate::types::jwt::create_claims;
 #[derive(Queryable, Selectable, Identifiable, Debug, Serialize, Deserialize)]
 #[diesel(table_name = admin_users)]
 pub struct AdminUser {
-    pub id: i64,
-    pub email: Option<String>,
-    pub password_digest: Option<String>,
-    pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
+  pub id: i64,
+  pub email: Option<String>,
+  pub password_digest: Option<String>,
+  pub created_at: NaiveDateTime,
+  pub updated_at: NaiveDateTime,
 }
 
 impl AdminUser {
-    pub fn verify_password(&self, password: &str) -> bool {
-        match &self.password_digest {
-            Some(digest) => verify(password, digest).unwrap_or(false),
-            None => false,
-        }
+  pub fn verify_password(&self, password: &str) -> bool {
+    match &self.password_digest {
+      Some(digest) => verify(password, digest).unwrap_or(false),
+      None => false,
     }
+  }
 
-    pub fn create_token(&self) -> String {
-        create_claims(self.id, "admin").encode()
-    }
+  pub fn create_token(&self) -> String {
+    create_claims(self.id, "admin").encode()
+  }
 }
